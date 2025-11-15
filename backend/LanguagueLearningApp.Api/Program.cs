@@ -1,6 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using LanguagueLearningApp.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Configure DbContext with SQL Server
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
