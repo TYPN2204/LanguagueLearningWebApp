@@ -1,18 +1,21 @@
 {
-    "name": "LanguagueLearningWebApp Codespace",
-    "image": "mcr.microsoft.com/devcontainers/universal:2",
-    "features": {
-        "ghcr.io/devcontainers/features/mssql:1": {
-            "version": "latest",
-            "saPassword": "yourStrong(!)Password"
-        }
+  "name": "LanguagueLearningWebApp Codespace",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
     },
-    "forwardPorts": [5000, 5001],
-    "portsAttributes": {
-        "5001": {
-            "label": "Backend API",
-            "onAutoForward": "openBrowser"
-        }
-    },
-    "postCreateCommand": "dotnet dev-certs https --trust"
+    "ghcr.io/devcontainers/features/mssql:1": {
+        "version": "latest",
+        "saPassword": "yourStrong(!)Password123"
+    }
+  },
+  "postCreateCommand": "dotnet tool install --global dotnet-ef",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csdevkit"
+      ]
+    }
+  }
 }
