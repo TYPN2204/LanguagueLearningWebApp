@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using LanguagueLearningApp.Api.Data;
+using LanguagueLearningApp.Api.Services;
+using LanguagueLearningApp.Api.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+// Register Services
+builder.Services.AddScoped<IHocSinhService, HocSinhService>();
+
+// Add Controllers
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -23,6 +31,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Map Controllers
+app.MapControllers();
 
 var summaries = new[]
 {
