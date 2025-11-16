@@ -13,6 +13,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Register Services
 builder.Services.AddScoped<IHocSinhService, HocSinhService>();
+builder.Services.AddScoped<ITaiKhoanService, TaiKhoanService>();
+builder.Services.AddScoped<IKhoaHocService, KhoaHocService>();
+builder.Services.AddScoped<IBaiHocService, BaiHocService>();
+builder.Services.AddScoped<ICauHoiTracNghiemService, CauHoiTracNghiemService>();
+builder.Services.AddScoped<INhiemVuService, NhiemVuService>();
 
 // Add Controllers
 builder.Services.AddControllers();
