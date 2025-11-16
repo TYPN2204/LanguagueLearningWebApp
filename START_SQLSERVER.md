@@ -13,10 +13,22 @@ SQL Server must be running and accessible at `localhost:1433` with:
 If Docker is available and working on your system:
 
 ```bash
+# Pull and start SQL Server 2022
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=yourStrong(!)Password" -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server:2022-latest
+
+# Wait for SQL Server to start (about 30 seconds)
+sleep 30
+
+# Verify it's running
+docker ps | grep sqlserver
 ```
 
-Wait for SQL Server to start (about 30 seconds), then proceed to the migration steps below.
+**Alternative - Use Azure SQL Edge (lighter weight):**
+```bash
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=yourStrong(!)Password" -p 1433:1433 --name azuresqledge -d mcr.microsoft.com/azure-sql-edge:latest
+```
+
+Wait for the container to start, then proceed to the migration steps below.
 
 ## Option 2: Using SQL Server on Linux
 
@@ -30,7 +42,19 @@ sudo ACCEPT_EULA=Y MSSQL_SA_PASSWORD='yourStrong(!)Password' MSSQL_PID='express'
 sudo systemctl start mssql-server
 ```
 
-## Option 3: Using Azure SQL Database or Remote SQL Server
+## Option 3: Using GitHub Codespaces (Recommended)
+
+This repository is configured with a `.devcontainer/devcontainer.json` that includes SQL Server. If you open this repository in GitHub Codespaces, SQL Server should be automatically installed and configured.
+
+To use Codespaces:
+1. Go to the repository on GitHub
+2. Click the green "Code" button
+3. Select "Codespaces" tab
+4. Click "Create codespace on main" (or your branch)
+
+SQL Server will be configured automatically with the password from the devcontainer configuration.
+
+## Option 4: Using Azure SQL Database or Remote SQL Server
 
 Update the connection string in `backend/LanguagueLearningApp.Api/appsettings.Development.json` to point to your remote SQL Server instance.
 
@@ -83,15 +107,37 @@ If you see "The migration '...' has already been applied to the database", this 
 
 ## What Has Been Done
 
+✅ **dotnet-ef Tools Installed**: Entity Framework Core tools version 8.0.22 installed globally
+
+✅ **NuGet Packages Restored**: All project dependencies have been restored
+
 ✅ **Migration Created**: The initial database migration has been created at `backend/LanguagueLearningApp.Api/Migrations/20251116021548_InitialCreate.cs`
 
 This migration includes all the database tables for:
 - TaiKhoans (Accounts)
+- PhuHuynhs (Parents)
+- GiaoViens (Teachers)
 - HocSinhs (Students)
 - KhoaHocs (Courses)
 - BaiHocs (Lessons)
+- BaiTaps (Exercises)
 - CauHoiTracNghiems (Multiple Choice Questions)
+- BaiNops (Submissions)
+- PhanTichAIs (AI Analyses)
+- LoiNguPhaps (Grammar Errors)
+- PhanHois (Feedback)
 - NhiemVus (Missions/Tasks)
-- And all other entities defined in the Models folder
+- NhiemVuHocSinhs (Student Missions)
+- PhanThuongs (Rewards)
+- HocSinh_PhanThuongs (Student Rewards)
+- TienDos (Progress)
+- BangXepHangs (Leaderboards)
+- BaoCaoZalos (Zalo Reports)
+- TinNhans (Messages)
+- ChuDeChatBots (ChatBot Topics)
+- ChatBot_HocSinhs (ChatBot Student Sessions)
+- NhatKyAIs (AI Logs)
 
-⏳ **Pending**: Applying the migration to the database and running the API (requires SQL Server to be running)
+✅ **Startup Script Created**: A convenient `backend/start-api.sh` script that will start SQL Server (if Docker is available), apply migrations, and run the API
+
+⏳ **Pending**: Applying the migration to the database and running the API (requires SQL Server to be running and accessible)
