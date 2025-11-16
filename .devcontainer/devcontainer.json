@@ -1,0 +1,18 @@
+{
+    "name": ".NET and SQL Server",
+    "image": "mcr.microsoft.com/devcontainers/dotnet:8.0-bookworm",
+    "features": {
+        "ghcr.io/devcontainers/features/mssql-22-edge:2": {
+            "saPassword": "yourStrong(!)Password123"
+        }
+    },
+    "postCreateCommand": "dotnet --version && dotnet tool install --global dotnet-ef && export PATH='$PATH:$HOME/.dotnet/tools'",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-dotnettools.csdevkit",
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    }
+}
